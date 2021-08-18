@@ -138,7 +138,7 @@ Resources:
       MapPublicIpOnLaunch: false
       Tags:
         - Key: Name
-          Value: !Sub '${EnvironmentName} Private Subnet (AZ3)
+          Value: !Sub '${EnvironmentName} Private Subnet (AZ3)'
   NatGateway1EIP:
     Type: 'AWS::EC2::EIP'
     DependsOn: InternetGatewayAttachment
