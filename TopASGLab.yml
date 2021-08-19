@@ -1,11 +1,12 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  This template deploys a VPC, with 3 Public and 3 Private subnets, 3
-  NatGateway's and an IGW
+  This template deploys a VPC, with 2 Public and 2 Private subnets, 2
+  NatGateway', an IGW, an ASG, LB, and Launch Template
 Parameters:
   TemplateName:
     Description: Specify a name for your Launch Template
     Type: String
+    Default: ASG-LaunchTemplate
   EnvironmentName:
     Description: An environment name that is prefixed to resource names
     Type: String
