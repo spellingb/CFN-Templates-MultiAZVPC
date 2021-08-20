@@ -1,7 +1,8 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  This template deploys a VPC, with 3 Public and 3 Private subnets, 3
-  NatGateway's and an IGW
+  This template deploys a VPC, with 2 Public and 2 Private subnets,
+  2 NatGateway's, IGW, LB, ASG, Launch Template, SNS Topic,
+  and ASG EC2 CloudWatch Alarm to notify via SNS
 Parameters:
   TemplateName:
     Description: Specify a name for your Launch Template
@@ -376,4 +377,3 @@ Outputs:
   CPUAlarmHigh:
     Description: LB Security Group
     Value: !Ref CPUAlarmHigh
-  
