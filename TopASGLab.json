@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "This template deploys a VPC, with 2 Public and 2 Private subnets, 2 NatGateway', an IGW, an ASG, LB, and Launch Template",
+    "Description": "This template deploys a VPC, with 3 Public and 3 Private subnets, 3 NatGateway's and an IGW",
     "Parameters": {
         "TemplateName": {
             "Description": "Specify a name for your Launch Template",
@@ -570,7 +570,51 @@
                     {
                         "Ref": "PrivateSubnet2"
                     }
+                ],
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "TopASGLab",
+                        "PropagateAtLaunch": true
+                    }
                 ]
+            }
+        },
+        "MySNSTopic": {
+            "Type": "AWS::SNS::Topic",
+            "Properties": {
+                "Subscription": [
+                    {
+                        "Endpoint": "jason.glover@rackspace.com",
+                        "Protocol": "email"
+                    }
+                ]
+            }
+        },
+        "CPUAlarmHigh": {
+            "Type": "AWS::CloudWatch::Alarm",
+            "Properties": {
+                "AlarmDescription": "Alarm CPU is greater than 90% for 10 minutes",
+                "MetricName": "CPUUtilization",
+                "Namespace": "AWS/EC2",
+                "Statistic": "Average",
+                "Period": "300",
+                "EvaluationPeriods": "2",
+                "Threshold": "20",
+                "AlarmActions": [
+                    {
+                        "Ref": "MySNSTopic"
+                    }
+                ],
+                "Dimensions": [
+                    {
+                        "Name": "AutoScalingGroupName",
+                        "Value": {
+                            "Ref": "myASG"
+                        }
+                    }
+                ],
+                "ComparisonOperator": "GreaterThanThreshold"
             }
         }
     },
@@ -647,6 +691,18 @@
             "Description": "LB Security Group",
             "Value": {
                 "Ref": "LbSG"
+            }
+        },
+        "MySNSTopic": {
+            "Description": "SNS Topic Name",
+            "Value": {
+                "Ref": "MySNSTopic"
+            }
+        },
+        "CPUAlarmHigh": {
+            "Description": "LB Security Group",
+            "Value": {
+                "Ref": "CPUAlarmHigh"
             }
         }
     }
