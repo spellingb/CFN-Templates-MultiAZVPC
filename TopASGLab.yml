@@ -317,7 +317,8 @@ Resources:
     Type: AWS::SNS::Topic
     Properties:
       Subscription:
-      - Endpoint: 'SNSEmail'
+      - Endpoint:
+         !Ref 'SNSEmail'
         Protocol: email
   CPUAlarmHigh:
     Type: 'AWS::CloudWatch::Alarm'
