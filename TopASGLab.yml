@@ -1,13 +1,15 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  This template deploys a VPC, with 2 Public and 2 Private subnets,
-  2 NatGateway's, an IGW, an ASG, Launch Template, SNS Topic,
-  and ASG EC2 CloudWatch Alarm to notify via SNS
+  This template deploys a VPC, with 3 Public and 3 Private subnets, 3
+  NatGateway's and an IGW
 Parameters:
   TemplateName:
     Description: Specify a name for your Launch Template
     Type: String
     Default: ASG-LaunchTemplate
+  SNSEmail:
+    Description: Enter Email Address for CloudWatch Alarm Notification
+    Type: String
   EnvironmentName:
     Description: An environment name that is prefixed to resource names
     Type: String
@@ -315,7 +317,7 @@ Resources:
     Type: AWS::SNS::Topic
     Properties:
       Subscription:
-      - Endpoint: "jason.glover@rackspace.com"
+      - Endpoint: 'SNSEmail'
         Protocol: email
   CPUAlarmHigh:
     Type: 'AWS::CloudWatch::Alarm'
@@ -373,3 +375,4 @@ Outputs:
   CPUAlarmHigh:
     Description: LB Security Group
     Value: !Ref CPUAlarmHigh
+  
